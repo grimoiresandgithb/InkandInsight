@@ -39,6 +39,7 @@ type AuthContextType = {
     emotions: string[],
     totalPages: number | null,
     pagesRead: number | null,
+    coverPhoto: string | null,
   ) => Promise<void>;
   getBooks: () => Promise<any[]>;
   updateBook: (bookId: string, data: any) => Promise<void>;
@@ -196,6 +197,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     emotions: string[],
     totalPages: number | null,
     pagesRead: number | null,
+    coverPhoto: string | null,
   ) {
     if (!user) return;
 
@@ -208,6 +210,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       emotions,
       totalPages,
       pagesRead,
+      coverPhoto,
       createdAt: Date.now(),
     });
   } // end addBook

@@ -1,32 +1,19 @@
-import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import {
   Image,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colours from "../theme/colours";
+import ParchmentBackground from "./components/ParchmentBackground";
 
 export default function Landing() {
   return (
-    <ImageBackground
-      source={require("@/assets/images/parchment.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <LinearGradient
-        colors={[
-          "rgba(60, 45, 35, 0.35)",
-          "rgba(60, 45, 35, 0.15)",
-          "rgba(60, 45, 35, 0.0)",
-        ]}
-        style={styles.vignette}
-      />
+    <ParchmentBackground>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <SafeAreaView style={styles.container} edges={["top"]}>
           <Image
@@ -53,7 +40,7 @@ export default function Landing() {
           </View>
         </SafeAreaView>
       </ScrollView>
-    </ImageBackground>
+    </ParchmentBackground>
   );
 }
 

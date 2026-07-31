@@ -1,9 +1,9 @@
 import Slider from "@react-native-community/slider";
-import { LinearGradient } from "expo-linear-gradient";
+import * as ImagePicker from "expo-image-picker";
 import { useEffect, useRef, useState } from "react";
 import {
   FlatList,
-  ImageBackground,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,6 +15,7 @@ import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../../src/context/authcontext";
 import colours from "../../../theme/colours";
+import ParchmentBackground from "../../components/ParchmentBackground";
 
 const EMOTION_OPTIONS = [
   "cozy",
@@ -45,11 +46,23 @@ export default function BookshelfScreen() {
   const [rating, setRating] = useState<number | null>(null);
   const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
   const [customEmotion, setCustomEmotion] = useState("");
+  const [coverPhoto, setCoverPhoto] = useState<string | null>(null);
   const listRef = useRef<FlatList>(null);
 
   async function loadBooks() {
     const data = await getBooks();
     setBooks(data);
+  }
+
+  async function pickCoverPhoto() {
+    const result = await ImagePicker.launchCameraAsync({
+      quality: 0.7,
+      allowsEditing: true,
+    });
+
+    if (!result.canceled) {
+      setCoverPhoto(result.assets[0].uri);
+    }
   }
 
   function toggleEmotion(word: string) {
@@ -75,6 +88,7 @@ export default function BookshelfScreen() {
       emotionList,
       totalPages || null,
       0,
+      coverPhoto,
     );
 
     Toast.show("Book saved!", {
@@ -94,6 +108,7 @@ export default function BookshelfScreen() {
     setSelectedEmotions([]);
     setCustomEmotion("");
     setTotalPages(null);
+    setCoverPhoto(null);
 
     await loadBooks();
 
@@ -105,19 +120,7 @@ export default function BookshelfScreen() {
   }, []);
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/parchment.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <LinearGradient
-        colors={[
-          "rgba(60, 45, 35, 0.35)",
-          "rgba(60, 45, 35, 0.15)",
-          "rgba(60, 45, 35, 0.0)",
-        ]}
-        style={styles.vignette}
-      />
+    <ParchmentBackground>
       <ScrollView>
         <SafeAreaView style={styles.container}>
           <Text style={styles.header}>Your Bookshelf</Text>
@@ -148,6 +151,22 @@ export default function BookshelfScreen() {
               value={totalPages?.toString() || ""}
               onChangeText={(v) => setTotalPages(Number(v))}
             />
+
+            <TouchableOpacity style={styles.button} onPress={pickCoverPhoto}>
+              <Text style={styles.buttonText}>Take Cover Photo</Text>
+            </TouchableOpacity>
+
+            {coverPhoto && (
+              <Image
+                source={{ uri: coverPhoto }}
+                style={{
+                  width: 120,
+                  height: 180,
+                  borderRadius: 12,
+                  marginTop: 10,
+                }}
+              />
+            )}
 
             <Text style={styles.label}>Have you finished this book?</Text>
             <View style={styles.toggleRow}>
@@ -244,6 +263,17 @@ export default function BookshelfScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.bookCard}>
+                {item.coverPhoto && (
+                  <Image
+                    source={{ uri: item.coverPhoto }}
+                    style={{
+                      width: 90,
+                      height: 120,
+                      borderRadius: 10,
+                      marginBottom: 10,
+                    }}
+                  />
+                )}
                 <Text style={styles.bookTitle}>{item.title}</Text>
                 <Text style={styles.bookAuthor}>{item.author}</Text>
 
@@ -257,7 +287,7 @@ export default function BookshelfScreen() {
           />
         </SafeAreaView>
       </ScrollView>
-    </ImageBackground>
+    </ParchmentBackground>
   );
 }
 
@@ -362,6 +392,7 @@ const styles = StyleSheet.create({
     backgroundColor: colours.accentGreen,
     paddingVertical: 14,
     borderRadius: 12,
+    marginVertical: 15,
     alignItems: "center",
   },
   buttonText: {

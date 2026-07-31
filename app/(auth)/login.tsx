@@ -1,18 +1,17 @@
 import { useAuth } from "@/context/authcontext";
-import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { useState } from "react";
 import {
-    ImageBackground,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colours from "../../theme/colours";
+import ParchmentBackground from "../components/ParchmentBackground";
 
 export default function Login() {
   const { signIn, error, loading } = useAuth();
@@ -20,19 +19,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/parchment.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <LinearGradient
-        colors={[
-          "rgba(60, 45, 35, 0.35)",
-          "rgba(60, 45, 35, 0.15)",
-          "rgba(60, 45, 35, 0.0)",
-        ]}
-        style={styles.vignette}
-      />
+    <ParchmentBackground>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <SafeAreaView style={styles.container} edges={["top"]}>
           <View style={styles.authContainer}>
@@ -76,7 +63,7 @@ export default function Login() {
           </View>
         </SafeAreaView>
       </ScrollView>
-    </ImageBackground>
+    </ParchmentBackground>
   );
 }
 

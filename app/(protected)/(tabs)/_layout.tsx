@@ -7,11 +7,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colours.accentRed,
-        tabBarInactiveTintColor: colours.textTertiary,
+        tabBarActiveTintColor: colours.surface,
+        tabBarInactiveTintColor: colours.textCream,
         tabBarStyle: {
-          backgroundColor: "rgba(90, 75, 60, 1)",
-          borderTopColor: colours.accentGreen,
+          backgroundColor: colours.accentGreen,
+          borderTopColor: colours.surface,
         },
       }}
     >
@@ -45,6 +45,16 @@ export default function TabLayout() {
               color={color}
               size={size}
             />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" color={color} size={size} />
           ),
         }}
       />

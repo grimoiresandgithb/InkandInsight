@@ -1,19 +1,18 @@
 import { useAuth } from "@/context/authcontext";
-import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef, useState } from "react";
 import {
   FlatList,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colours from "../../../theme/colours";
+import ParchmentBackground from "../../components/ParchmentBackground";
 
 export default function QuotesScreen() {
   const { addQuote, getQuotes } = useAuth();
@@ -53,19 +52,7 @@ export default function QuotesScreen() {
   }, []);
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/parchment.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <LinearGradient
-        colors={[
-          "rgba(60, 45, 35, 0.35)",
-          "rgba(60, 45, 35, 0.15)",
-          "rgba(60, 45, 35, 0.0)",
-        ]}
-        style={styles.vignette}
-      />
+    <ParchmentBackground>
       <SafeAreaView style={styles.container}>
         <ScrollView>
           <Text style={styles.header}>Your Quotes</Text>
@@ -121,7 +108,7 @@ export default function QuotesScreen() {
           />
         </ScrollView>
       </SafeAreaView>
-    </ImageBackground>
+    </ParchmentBackground>
   );
 }
 

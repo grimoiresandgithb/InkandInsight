@@ -1,9 +1,7 @@
 import { useAuth } from "@/context/authcontext";
-import { LinearGradient } from "expo-linear-gradient";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
-  ImageBackground,
   Modal,
   ScrollView,
   StyleSheet,
@@ -15,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { db } from "../../../src/firebase";
 import colours from "../../../theme/colours";
+import ParchmentBackground from "../../components/ParchmentBackground";
 
 const SESSION_EMOTIONS = [
   "cozy",
@@ -200,19 +199,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/parchment.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <LinearGradient
-        colors={[
-          "rgba(60, 45, 35, 0.35)",
-          "rgba(60, 45, 35, 0.15)",
-          "rgba(60, 45, 35, 0.0)",
-        ]}
-        style={styles.vignette}
-      />
+    <ParchmentBackground>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <SafeAreaView style={styles.container} edges={["top"]}>
           <Text style={styles.header}>Ink & Insight</Text>
@@ -324,7 +311,7 @@ export default function HomeScreen() {
                     value={feelings}
                     onChangeText={setFeelings}
                     placeholder="Add your own feeling..."
-                    placeholderTextColor={colours.textTertiary}
+                    placeholderTextColor="rgba(247, 241, 227, 0.85)"
                   />
 
                   <Text style={styles.label}>Quotes (optional)</Text>
@@ -334,7 +321,7 @@ export default function HomeScreen() {
                     value={quoteText}
                     onChangeText={setQuoteText}
                     placeholder="Add any quotes you found meaningful..."
-                    placeholderTextColor={colours.textTertiary}
+                    placeholderTextColor="rgba(247, 241, 227, 0.85)"
                   />
 
                   {/* SAVE BUTTON */}
@@ -385,7 +372,7 @@ export default function HomeScreen() {
           </View>
         </SafeAreaView>
       </ScrollView>
-    </ImageBackground>
+    </ParchmentBackground>
   );
 }
 
